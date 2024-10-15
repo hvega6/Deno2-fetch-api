@@ -46,7 +46,7 @@ await serve(async (req: Request) => {
 
   try {
     if (req.method === "GET" && !id) {
-      const horses = db.prepare<[Horse]>("SELECT * FROM horses").all() as Horse[];
+      const horses = db.prepare("SELECT * FROM horses").all() as Horse[];
       return new Response(JSON.stringify(horses), {
         headers: { "Content-Type": "application/json" },
         status: horses.length ? 200 : 404,
@@ -54,7 +54,7 @@ await serve(async (req: Request) => {
     }
 
     if (req.method === "GET" && id) {
-      const horse = db.prepare<[Horse]>("SELECT * FROM horses WHERE id = ?").get(id) as Horse | undefined;
+      const horse = db.prepare("SELECT * FROM horses WHERE id = ?").get(id) as Horse | undefined;
       if (!horse) {
         return new Response("Horse not found", { status: 404 });
       }
@@ -68,7 +68,7 @@ await serve(async (req: Request) => {
       const { name, age } = await req.json();
       const permalink = "horsetider.dev/" + toKebabCase(name);
       db.prepare("INSERT INTO horses (name, age, permalink) VALUES (?, ?, ?)").run(name, age, permalink);
-      const horse = db.prepare<[Horse]>("SELECT * FROM horses WHERE rowid = last_insert_rowid()").get() as Horse;
+      const horse = db.prepare("SELECT * FROM horses WHERE rowid = last_insert_rowid()").get() as Horse;
       return new Response(JSON.stringify(horse), {
         headers: { "Content-Type": "application/json" },
         status: 201,
