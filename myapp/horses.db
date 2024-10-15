@@ -1,0 +1,14 @@
+-- Create the horses table
+CREATE TABLE IF NOT EXISTS horses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    permalink TEXT NOT NULL
+);
+
+-- Insert some sample data
+INSERT INTO horses (name, age, permalink) VALUES
+    ('Thunderbolt', 5, 'horsetider.dev/thunderbolt'),
+    ('Silver Star', 7, 'horsetider.dev/silver-star'),
+    ('Midnight Moon', 3, 'horsetider.dev/midnight-moon'),
+    ('Golden Sun', 6, 'horsetider.dev/golden-sun');
